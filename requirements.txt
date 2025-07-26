@@ -1,0 +1,9 @@
+openai
+langchain
+streamlit
+pdfplumber 
+plotly 
+SpeechRecognition
+pyttsx3
+pydub 
+googletrans==4.0.0rc1 
