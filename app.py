@@ -7,13 +7,35 @@ import tempfile
 import zipfile
 from dotenv import load_dotenv
 import streamlit.components.v1 as components
-from utils import extract_text_from_pdf
+import pdfplumber
 from langchain_groq import ChatGroq
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationChain
 from contextlib import suppress
 import base64
 load_dotenv()
+
+# Utility functions from utils.py
+def load_resume(file_path):
+    from langchain.document_loaders import PyPDFLoader
+    loader = PyPDFLoader(file_path)
+    return loader.load()
+
+def create_vectorstore(docs):
+    from langchain.embeddings import HuggingFaceEmbeddings
+    from langchain.vectorstores import FAISS
+    embeddings = HuggingFaceEmbeddings()
+    vectorstore = FAISS.from_documents(docs, embeddings)
+    vectorstore.save_local("data/vector_store")
+    return vectorstore
+
+def extract_text_from_pdf(file) -> str:
+    """Extracts all text from a PDF file-like object."""
+    text = ""
+    with pdfplumber.open(file) as pdf:
+        for page in pdf.pages:
+            text += page.extract_text() or ""
+    return text
 
 st.set_page_config(page_title="Career Advisor Agent", page_icon="💼", layout="centered")
 
