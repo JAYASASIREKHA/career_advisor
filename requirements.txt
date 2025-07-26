@@ -10,3 +10,6 @@ SpeechRecognition
 pyttsx3
 pydub 
 googletrans==4.0.0rc1 
+pdfminer.six
+pdfplumber
+PyMuPDF
