@@ -1,3 +1,5 @@
+langchain
+pypdf
 python-dotenv
 openai
 langchain
